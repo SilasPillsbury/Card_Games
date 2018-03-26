@@ -16,17 +16,24 @@ dectionary = {card.i[0] : card for card in deck}
 def play(deck=deck):
   hand,ehand = deal(deck)
   score = 0
+  eScore = 0
   while len(deck) > 0:
     take = True
-    while take:
+    while take and len(deck) > 0:
       hand = sorted(hand, key = lambda hand:hand.i[0])
       display(hand,score)
       take = askFor(hand,ehand,deck)
       score = calcScore(hand,score)
+      """
       print('ehand')
       display(ehand,score)
+      """
+    display(hand,score)
+    eTurn(hand,ehand,deck)
     #return hand,ehand
 
+
+#make scorey boi for ehand
 def calcScore(hand,score):
   k = []
   for card in hand:
@@ -35,7 +42,7 @@ def calcScore(hand,score):
     if k.count(x) > 3:
       a = x
       score += 1
-      print(5*"-"+ " You played the "+str(a)+"'s!"+5"-")     
+      print(5*"-"+ " You played the "+str(a)+"'s!"+5*"-")     
       for card in hand:
         if card.i[0] == a:
           hand.remove(card)
@@ -72,7 +79,8 @@ def askFor(hand,ehand,deck):
         print("You got a",card.i,"!")
         hand.append(card)
         ehand.remove(card)
-    take = True      
+    print('You can go again.')
+    take = True  
   else:
     print('Go fish!')
     draw(hand,deck)
@@ -85,6 +93,22 @@ def deal(deck):
     draw(hand,deck)
     draw(ehand,deck)
   return hand,ehand
+
+def eTurn(hand,ehand,deck):
+  req = ehand[r.randint(0,len(ehand)-1)].i[0] #this will be an int
+  lies = input("Do you have a "+str(req)+"?")
+  k = [card.i[0] for card in hand]
+  m = []
+  if req in k:
+    for card in hand:
+      if card.i[0] == req:
+        print("You gave your opponent the",card.i)
+        hand.remove(card)
+        m.append(card)
+    ehand.extend(m)
+  else:
+    print("You say Go Fish!")
+    draw(ehand,deck)
 
 def draw(hand,deck):
   hand.append(deck.pop(r.randint(0,len(deck)-1))) 

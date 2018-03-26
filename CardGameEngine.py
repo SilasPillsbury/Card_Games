@@ -17,14 +17,31 @@ def play(deck=deck):
   hand,ehand = deal(deck)
   score = 0
   while len(deck) > 0:
-    hand = sorted(hand, key = lambda hand:hand.i[0])
-    display(hand,score)
-    #display(ehand)
-    askFor(hand, ehand, deck)
+    take = True
+    while take:
+      hand = sorted(hand, key = lambda hand:hand.i[0])
+      display(hand,score)
+      take = askFor(hand,ehand,deck)
+      score = calcScore(hand,score)
+      print('ehand')
+      display(ehand,score)
     #return hand,ehand
 
-def calcScore(hand):
-  return hand.count(card for card in hand)
+def calcScore(hand,score):
+  k = []
+  for card in hand:
+    k.append(card.i[0])
+  for x in k:
+    if k.count(x) > 3:
+      a = x
+      score += 1
+      print(5*"-"+ " You played the "+str(a)+"'s!"+5"-")     
+      for card in hand:
+        if card.i[0] == a:
+          hand.remove(card)
+      break
+  #hand.count(card for card in hand)
+  return score
 
 def display(hand,score=0):
   print('Score: '+str(score))
@@ -41,6 +58,7 @@ def askFor(hand,ehand,deck):
   with the number of the card you asked for. Otherwise, the
   program prints 'go fish'.
   """
+  take = False
   print("Input card # you would like to ask for.")
   reqNum = int(input())
   handInts = [x.i[0] for x in hand]
@@ -53,19 +71,20 @@ def askFor(hand,ehand,deck):
     for card in cardTake:
         print("You got a",card.i,"!")
         hand.append(card)
-        ehand.remove(card)      
+        ehand.remove(card)
+    take = True      
   else:
     print('Go fish!')
-    hand = draw(hand,deck)
+    draw(hand,deck)
+  return(take)
     
 def deal(deck):
   hand = []
   ehand = []
   for x in range(5):
-    hand = draw(hand,deck)
-    ehand = draw(ehand,deck)
+    draw(hand,deck)
+    draw(ehand,deck)
   return hand,ehand
 
 def draw(hand,deck):
-  hand.append(deck.pop(r.randint(0,len(deck)-1)))
-  return hand
+  hand.append(deck.pop(r.randint(0,len(deck)-1))) 

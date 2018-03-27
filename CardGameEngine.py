@@ -30,11 +30,12 @@ def play(deck=deck):
       """
     display(hand,score)
     eTurn(hand,ehand,deck)
+    calcScore(ehand,eScore,False)
     #return hand,ehand
 
 
 #make scorey boi for ehand
-def calcScore(hand,score):
+def calcScore(hand,score,who=True):
   k = []
   for card in hand:
     k.append(card.i[0])
@@ -42,7 +43,7 @@ def calcScore(hand,score):
     if k.count(x) > 3:
       a = x
       score += 1
-      print(5*"-"+ " You played the "+str(a)+"'s!"+5*"-")     
+      print(5*"-"+(not who)*"Your opponent played the"+who*" You played the "+str(a)+"'s!"+5*"-")     
       for card in hand:
         if card.i[0] == a:
           hand.remove(card)

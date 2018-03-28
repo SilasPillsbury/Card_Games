@@ -1,8 +1,14 @@
 import random as r
 
 class card:
-    def __init__(self, suitNumber):
-      self.i = suitNumber
+  def __init__(self, suitNumber):
+    self.i = suitNumber
+
+class playerHand:
+  def __init__(self):
+    self.cards = []
+  def draw(self,deck):
+    self.cards.append(deck.pop(r.randint(0,len(deck)-1)))
 
 deck = []
 for x in range(1,14):
@@ -10,6 +16,14 @@ for x in range(1,14):
   deck.append(card([x,'of Hearts']))
   deck.append(card([x,'of Diamonds']))
   deck.append(card([x,'of Clubs']))
+
+boyo = playerHand()
+billy = playerHand()
+
+
+for x in range(5):
+  boyo.draw(deck)
+  billy.draw(deck)
 
 dectionary = {card.i[0] : card for card in deck}
 
@@ -110,6 +124,3 @@ def eTurn(hand,ehand,deck):
   else:
     print("You say Go Fish!")
     draw(ehand,deck)
-
-def draw(hand,deck):
-  hand.append(deck.pop(r.randint(0,len(deck)-1))) 

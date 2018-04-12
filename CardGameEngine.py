@@ -9,6 +9,9 @@ class playerHand:
     self.cards = []
   def draw(self,deck):
     self.cards.append(deck.pop(r.randint(0,len(deck)-1)))
+  def take(self,index,opHand):
+    self.cards.append(opHand.cards.pop(index))
+    
 
 deck = []
 for x in range(1,14):
@@ -20,6 +23,8 @@ for x in range(1,14):
 boyo = playerHand()
 billy = playerHand()
 
+def draw(hand,deck):
+  hand.append(deck.pop(r.randint(0,len(deck)-1)))
 
 for x in range(5):
   boyo.draw(deck)
